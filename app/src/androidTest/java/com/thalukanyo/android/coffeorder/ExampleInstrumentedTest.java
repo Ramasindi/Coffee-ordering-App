@@ -1,4 +1,4 @@
-package com.example.justjava;
+package com.thalukanyo.android.coffeorder;
 
 import android.content.Context;
 
