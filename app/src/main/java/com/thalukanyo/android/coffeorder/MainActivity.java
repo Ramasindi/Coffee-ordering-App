@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
      * This method is for decrementing
      */
 
-    public void decrement(View view) {
+    public void reduceQuantity(View view) {
         if (quantity == 1) {
             Toast.makeText(this, "You can not have less than one coffee", Toast.LENGTH_SHORT).show();
             return;
@@ -113,20 +113,12 @@ public class MainActivity extends AppCompatActivity {
         displayQuantity(quantity);
     }
 
-
-    /**
-     * This method displays the given quantity value on the screen.
-     */
     private void displayQuantity(int number) {
         TextView quantityTextView = findViewById(
                 R.id.quantity_text_view);
         quantityTextView.setText("" + number);
     }
-
-    /**
-     * Calculates the price of the order.
-     */
-
+    
     private int calculatePrice(boolean whippedCream, boolean chocolate) {
         int price = quantity * 5;
         if (whippedCream) {
@@ -137,10 +129,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return price;
     }
-    /**
-     * This method displays the given text on the screen.
-
-     */
-
-
+    
 }
