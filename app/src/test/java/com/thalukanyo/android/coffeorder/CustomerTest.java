@@ -11,7 +11,7 @@ public class CustomerTest {
 
     @Before
     public void initialize(){
-        bean = new Customer("Bean" , "0111111111");
+        bean = new Customer("Bean" , "0111111111", "me@me.com");
     }
 
 

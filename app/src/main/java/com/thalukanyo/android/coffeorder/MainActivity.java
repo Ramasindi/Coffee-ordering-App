@@ -14,6 +14,7 @@ package com.thalukanyo.android.coffeorder;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -22,13 +23,20 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.thalukanyo.android.coffeorder.models.CoffeeOrder;
+import com.thalukanyo.android.coffeorder.models.Customer;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.ArrayList;
 
 /**
  * This app displays an order form to order coffee.
  */
 public class MainActivity extends AppCompatActivity {
+
+    public static final String EMAIL_ORDER_RECEIVER = "leyic87950@hubopss.com";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +80,48 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
+    public CoffeeOrder getSubmittedCoffeeOrder() {
+        EditText userInput = findViewById(R.id.editname_text_view);
+        String userName = userInput.getText().toString();
+        EditText userEmailInput = findViewById(R.id.et_user_email);
+        String userEmail = userEmailInput.getText().toString();
+        EditText userNumber = findViewById(R.id.editnumber_text_view);
+        String userInputNo = "+27 ";
+        userInputNo += userNumber.getText().toString();
+        CheckBox whippedCheckBox = findViewById(R.id.whipped_cream_checkBox);
+        boolean hasWhippedCream = whippedCheckBox.isChecked();
+        CheckBox chocolate = findViewById(R.id.chocolate_checkbox);
+        boolean hasChocolate = chocolate.isChecked();
+        double price = calculatePrice(hasWhippedCream, hasChocolate);
+        Customer customer = new Customer(userName, userInputNo, userEmail);
+
+        ArrayList<String> extras = new ArrayList<String>();
+        if(hasChocolate)
+            extras.add("Chocolate");
+        if(hasWhippedCream)
+            extras.add("Whipped Cream");
+        Log.i("SEND_EMAIL", "getSubmittedCoffeeOrder");
+        return new CoffeeOrder("Espresso", price, extras, customer, this.quantity);
+    }
+
+    public void submitEmailOrder(View view) {
+        Log.i("SEND_EMAIL", "submitEmailOrder");
+        Intent emailOrderIntent = new Intent(Intent.ACTION_SEND);
+        emailOrderIntent.setData(Uri.parse("mailto:"));
+        emailOrderIntent.setType("text/plain");
+        emailOrderIntent.putExtra(Intent.EXTRA_EMAIL, EMAIL_ORDER_RECEIVER);
+        emailOrderIntent.putExtra(Intent.EXTRA_SUBJECT, "Coffee Order");
+        emailOrderIntent.putExtra(Intent.EXTRA_TEXT, getSubmittedCoffeeOrder().toString());
+
+        try {
+            startActivity(Intent.createChooser(emailOrderIntent, "Send email order"));
+            finish();
+        } catch (android.content.ActivityNotFoundException ex) {
+            Toast.makeText(MainActivity.this, "Problem sending email.", Toast.LENGTH_LONG).show();
+        }
+        
+    }
+
 
     //createOrderSummary method
     public String createOrderSummary(int price, boolean whippedCream, boolean chocolate, String name) {

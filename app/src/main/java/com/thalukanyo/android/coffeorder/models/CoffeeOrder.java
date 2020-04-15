@@ -1,16 +1,16 @@
 package com.thalukanyo.android.coffeorder.models;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 
 public class CoffeeOrder {
 
     private String coffeeName;
     private double coffeePrice;
-    private String[] extras;
+    private ArrayList<String> extras;
     private Customer customer;
     private int quantity;
 
-    public CoffeeOrder(String coffeeName, double coffeePrice, String[] extras, Customer customer, int quantity) {
+    public CoffeeOrder(String coffeeName, double coffeePrice, ArrayList<String> extras, Customer customer, int quantity) {
         this.coffeeName = coffeeName;
         this.coffeePrice = coffeePrice;
         this.extras = extras;
@@ -42,11 +42,11 @@ public class CoffeeOrder {
         this.coffeePrice = coffeePrice;
     }
 
-    public String[] getExtras() {
+    public ArrayList<String> getExtras() {
         return extras;
     }
 
-    public void setExtras(String[] extras) {
+    public void setExtras(ArrayList<String> extras) {
         this.extras = extras;
     }
 
@@ -63,7 +63,7 @@ public class CoffeeOrder {
         return "CoffeeOrder{" +
                 "coffeeName='" + coffeeName + '\'' +
                 ", coffeePrice=" + coffeePrice +
-                ", extras=" + Arrays.toString(extras) +
+                ", extras=" + extras +
                 ", customer=" + customer +
                 ", quantity=" + quantity +
                 '}';
